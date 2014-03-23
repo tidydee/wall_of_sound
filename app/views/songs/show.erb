@@ -2,7 +2,8 @@
 
 <p><strong>Artist:</strong>  <span style="color:blue"><%= @song.artist %></span></p>
 
-<p><strong>URL:</strong>  <span style="color:blue"><%= @song.url %></span></p>
+<p><strong>URL:</strong>  <a href="<%= @song.url %>"><span style="color:red"><%= @song.url %></span></a></span></p>
 
 <hr>
-<a href="/songs">Return to the public Wall of Sound</a>
+<p><strong><a href="/songs">Return to the public Wall of Sound</a></strong></p>
+<p><a href="/songs/new">Post a song - All the Kool Peeps are doing it!</a></p>
