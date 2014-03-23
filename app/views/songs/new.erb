@@ -1,28 +1,28 @@
 <h2> Be <span style=color:blue>KOOL</span> and post your favourite song!</h2>
 
-<% if @song && @song.errors.any? %>
+<% if @song.errors.any? %>
   <div>
-    <strong>Some issues with your attempt to post on the Wall of Sound, please fix them:</strong>
+    <span style="color:red"><strong>Some issues with your attempt to post on the Wall of Sound, please fix them:</strong>
     <ul>
       <% @song.errors.full_messages.each do |message| %>
       <li><%= message %></li>
       <% end %>
-    </ul>
+    </ul></span>
   </div>
 <% end %>
 
 <form action="/songs" method="POST">
   <div>
     <label>Song Name:</label>
-    <input type="text" placeholder="Minimum of 3 characters" name="song" value = "<%= @song && @song.name %>">
+    <input type="text" placeholder="Minimum of 3 characters" name="song" value = "<%= @song.name %>">
   </div>
   <div>
     <label>Artist:</label>
-    <input type="text" placeholder="Minimum of 3 characters" name="artist" value = "<%= @song && @song.artist %>">
+    <input type="text" placeholder="Minimum of 3 characters" name="artist" value = "<%= @song.artist %>">
   </div>
   <div>
     <label>URL:</label>
-    <input type="string" placeholder="Optional, but reccomended" name="url" value = "<%= @song && @song.url  %>">
+    <input type="string" placeholder="Optional, but reccomended" name="url" value = "<%= @song.url  %>">
   </div>
   <div>
     <input type="submit" value="Submit">
