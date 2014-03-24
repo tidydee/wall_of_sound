@@ -5,8 +5,7 @@ class AddSongs < ActiveRecord::Migration
       t.string :artist
       t.string :genre
       t.string :url
-      t.datetime :created_at
-      t.datetime :updated_at
+      t.timestamps #created_at & updated_at 
     end
   end
 end

@@ -18,6 +18,17 @@
   <title></title>
 </head>
 <body>
+  <header>
+    <% if current_user %>
+    Welcome <%= current_user.email %>,
+    <form method="POST" action="/logout">
+      <input type="submit" value="Logout">  
+    </form>
+    <% else %>
+      Please <a href="/login">Log in</a> or <a href="/signup">Sign up</a>
+    <% end %>  
+  </header>
+
   <%= yield %>
 </body>
 </html>

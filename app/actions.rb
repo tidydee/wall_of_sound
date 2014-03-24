@@ -2,6 +2,14 @@ require "net/http"
 require "uri"
 
 # Homepage (Root path)
+
+helpers do
+   # Usable in ERB templates everywhere, and in any action below
+  def current_user
+     @current_user ||= User.find(session[:user_id]) if session[:user_id]
+  end
+end
+
 get '/' do
   erb :index
 end
@@ -10,10 +18,6 @@ get '/songs' do
   @songs = Song.all
   erb :'songs/index'
 end
-
-# get '/songs' do
-#   erb :'songs/index'
-# end
 
 get '/songs/new' do
   @song = Song.new
@@ -38,6 +42,55 @@ get '/songs/:id' do
   @song = Song.find params[:id]
   erb :'songs/show'
 end
+
+### AUTHENTICATION ACTIONS
+
+#Form
+get "/signup" do
+  erb :'auth/signup'
+end
+
+#Form
+get "/login" do
+  erb :'auth/login'
+end
+
+#Post signup
+post "/signup" do
+  @user = User.new(
+    email: params[:email],
+    password: params[:password]
+  )
+
+  if @user.save
+    session[:user_id] = @user.id
+    redirect '/'
+  else
+    erb :'auth/signup'
+  end
+end
+
+#Post login
+post "/login" do
+  @user = User.find_by(email: params[:email], password: params[:password])
+
+  if @user
+    session[:user_id] = @user.id
+    redirect '/'
+  else
+    erb :'auth/login'
+  end
+end
+
+#Post logout
+post "/logout" do
+  session[:user_id] = nil
+  redirect '/'
+end
+
+
+
+### YOUTUBE VALIDATOR
 
 def youtube_embed(youtube_url)
   if youtube_url["<%= song.url %>"]
