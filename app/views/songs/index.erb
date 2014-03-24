@@ -4,7 +4,11 @@
     
     <p><strong>Genre:</strong> <span style="color:blue"><%= song.genre %></span> </p>
 
-    <p> <a href="<%= song.url %>"><span style="color:red"><%= song.url %></span></a> </p>
+    <!-- <p> <a href="<%= song.url %>"><span style="color:red"><%= song.url %></span></a> </p> -->
+  
+    <%= youtube_embed  song.url  %>
+  
+    <!-- <p> <a href="<%= song.url %>"><span style="color:red"><%= song.url %></span></a> </p> -->
   </div>
 
   <hr>
@@ -14,3 +18,7 @@
 <br>
 
 <p><strong><a href="/songs/new">Post a song - All the Kool Peeps are doing it!</a></strong></p>
+
+
+
+
