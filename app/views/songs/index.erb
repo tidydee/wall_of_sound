@@ -1,6 +1,9 @@
 <% @songs.each do |song| %>
   <div class="song">
     <h3> <a href="/songs/<%= song.id %>"><%= song.name %></a> <small>(by: <%= song.artist %>)</small> </h3>
+    
+    <p><strong>Genre:</strong> <span style="color:blue"><%= song.genre %></span> </p>
+
     <p> <a href="<%= song.url %>"><span style="color:red"><%= song.url %></span></a> </p>
   </div>
 

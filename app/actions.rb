@@ -21,6 +21,7 @@ post '/songs' do
   @song = Song.new(
     name: params[:song],
     artist: params[:artist],
+    genre: params[:genre],
     url: params[:url]
   )
   if @song.save

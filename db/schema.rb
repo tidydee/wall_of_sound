@@ -15,6 +15,7 @@ ActiveRecord::Schema.define(version: 20140323200533) do
   create_table "songs", force: true do |t|
     t.string   "name"
     t.string   "artist"
+    t.string   "genre"
     t.string   "url"
     t.datetime "created_at"
     t.datetime "updated_at"
