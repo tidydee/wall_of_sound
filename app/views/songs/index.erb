@@ -1,27 +1,29 @@
-<% @songs.each do |song| %>
+<% @songs.order("vote_count DESC").each do |song| %>
   <div class="song">
     <%= youtube_embed  song.url  %>
 
-    <h3> <a href="/songs/<%= song.id %>"><%= song.name %></a> <small>(by: <%= song.artist %>)</small> </h3>
+    <h3> 
+      <a href="/songs/<%= song.id %>">
+        <%= song.name %>
+      </a> 
+      <small>
+        (by: <%= song.artist %>)
+      </small> 
+    </h3>
     
     <p><strong>Genre:</strong> <span style="color:blue"><%= song.genre %></span> </p>
 
     <!-- <p> <a href="<%= song.url %>"><span style="color:red"><%= song.url %></span></a> </p> -->
 
-    
-
-    <% if !current_user.upvotes.where(song_id: song.id).exists? %>
-      
+    <% unless current_user.upvotes.where(song_id: song.id).exists? %>
       <form action="/songs/like/<%= song.id %>" method="POST">
         <div>
           <input type="submit" name="song_id" value="Like:)">
         </div>
         <% true %>
       </form>
-    <% end %>
-
-    <% if current_user.upvotes.where(song_id: song.id).exists? %>
-    <form action="/songs/unlike/<%= song.id %>" method="POST">
+    <% else %>
+      <form action="/songs/unlike/<%= song.id %>" method="POST">
         <div>
           <input type="submit" name="song_id" value="Unlike:(">
         </div>

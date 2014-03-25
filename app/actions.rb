@@ -16,7 +16,8 @@ get '/' do
 end
 
 get '/songs' do
-  @songs = Song.all
+  @songs = Song.all.order("vote_count DESC")
+  @liked = 
   erb :'songs/index'
 end
 
