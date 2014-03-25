@@ -93,15 +93,35 @@ end
 
 #Post like
 post "/songs/like/:song_id" do
-  @upvote = Upvote.create(
+  upvote = Upvote.create(
     song_id: params[:song_id],
     user_id: session[:user_id]
   )
 
+  like = Song.find(params[:song_id]).vote_count
+  like += 1
+  Song.find(params[:song_id]).update(:vote_count => like)
+
   redirect "/songs"
 end
 
+#Post unlike
+post "/songs/unlike/:song_id" do
+  downvote = Upvote.find_by(
+    song_id: params[:song_id],
+    user_id: session[:user_id]
+  ).id
 
+  Upvote.delete(downvote)
+
+  unlike = Song.find(params[:song_id]).vote_count
+  unlike -= 1
+  Song.find(params[:song_id]).update(:vote_count => unlike)
+
+  redirect "/songs"
+end
+
+ 
 
 
 ### YOUTUBE VALIDATOR

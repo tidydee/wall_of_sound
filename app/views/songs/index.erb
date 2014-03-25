@@ -8,14 +8,34 @@
 
     <!-- <p> <a href="<%= song.url %>"><span style="color:red"><%= song.url %></span></a> </p> -->
 
-    <form action="/songs/like/<%= song.id %>" method="POST">
-      <div>
-        <input type="submit" name="song_id" value="Like!">
-      </div>
-    </form>
+    
 
-    <p><strong>Likes:</strong></p>
+    <% if !current_user.upvotes.where(song_id: song.id).exists? %>
+      
+      <form action="/songs/like/<%= song.id %>" method="POST">
+        <div>
+          <input type="submit" name="song_id" value="Like:)">
+        </div>
+        <% true %>
+      </form>
+    <% end %>
+
+    <% if current_user.upvotes.where(song_id: song.id).exists? %>
+    <form action="/songs/unlike/<%= song.id %>" method="POST">
+        <div>
+          <input type="submit" name="song_id" value="Unlike:(">
+        </div>
+        <% false %>
+      </form>
+    <% end %>
+
+
+    <p><strong>Likes: <%= song.vote_count  %></strong></p>
   
+
+
+
+
     <p><small><strong>Posted by:</strong> <span style="color:red"><%= User.find_by_id(song.user_id).try(:email) %></span></small> </p>
 
   
