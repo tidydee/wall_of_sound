@@ -1,4 +1,6 @@
 class Song < ActiveRecord::Base
+  belongs_to :user
+  has_many :upvotes
 
   validates :name, 
             presence: true,
@@ -13,8 +15,5 @@ class Song < ActiveRecord::Base
             length: { minimum:3 }          
 
   validates_format_of :url, with: URI.regexp 
-
-
-
 
 end

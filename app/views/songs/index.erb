@@ -1,12 +1,23 @@
 <% @songs.each do |song| %>
   <div class="song">
+    <%= youtube_embed  song.url  %>
+
     <h3> <a href="/songs/<%= song.id %>"><%= song.name %></a> <small>(by: <%= song.artist %>)</small> </h3>
     
     <p><strong>Genre:</strong> <span style="color:blue"><%= song.genre %></span> </p>
 
     <!-- <p> <a href="<%= song.url %>"><span style="color:red"><%= song.url %></span></a> </p> -->
+
+    <form action="/songs/like/<%= song.id %>" method="POST">
+      <div>
+        <input type="submit" name="song_id" value="Like!">
+      </div>
+    </form>
+
+    <p><strong>Likes:</strong></p>
   
-    <%= youtube_embed  song.url  %>
+    <p><small><strong>Posted by:</strong> <span style="color:red"><%= User.find_by_id(song.user_id).try(:email) %></span></small> </p>
+
   
     <!-- <p> <a href="<%= song.url %>"><span style="color:red"><%= song.url %></span></a> </p> -->
   </div>

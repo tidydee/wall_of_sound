@@ -1,5 +1,6 @@
 require "net/http"
 require "uri"
+require 'bcrypt'
 
 # Homepage (Root path)
 
@@ -29,7 +30,8 @@ post '/songs' do
     name: params[:song],
     artist: params[:artist],
     genre: params[:genre],
-    url: params[:url]
+    url: params[:url],
+    user_id: session[:user_id]
   )
   if @song.save
     redirect '/songs'
@@ -72,9 +74,10 @@ end
 
 #Post login
 post "/login" do
-  @user = User.find_by(email: params[:email], password: params[:password])
+  @user = User.find_by(email: params[:email])
 
-  if @user
+  if @user.password == params[:password]
+    # give_token
     session[:user_id] = @user.id
     redirect '/'
   else
@@ -87,6 +90,17 @@ post "/logout" do
   session[:user_id] = nil
   redirect '/'
 end
+
+#Post like
+post "/songs/like/:song_id" do
+  @upvote = Upvote.create(
+    song_id: params[:song_id],
+    user_id: session[:user_id]
+  )
+
+  redirect "/songs"
+end
+
 
 
 

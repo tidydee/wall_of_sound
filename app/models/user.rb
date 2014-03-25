@@ -2,6 +2,9 @@ require 'bcrypt'
 
 class User < ActiveRecord::Base
   include BCrypt
+  
+  has_many :songs
+  has_many :upvotes
 
   validates :email, presence: true
   validates :password, presence: true
