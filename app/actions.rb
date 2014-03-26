@@ -17,13 +17,35 @@ end
 
 get '/songs' do
   @songs = Song.all.order("vote_count DESC")
-  @liked = 
+  @review = Review.all 
   erb :'songs/index'
 end
 
 get '/songs/new' do
   @song = Song.new
   erb :'songs/new'
+end
+
+get '/reviews/new' do
+  @review = Review.new
+  erb :'reviews/new'
+end
+
+
+post '/reviews' do
+  @review = Review.new( 
+    song_id: params[:song_id],
+    user_id: session[:user_id],
+    review: params[:review]
+  )
+  
+  @review.song_id = params[:song_id] 
+
+  if @review.save
+    redirect '/songs/' + params[:song_id]
+  else
+    erb :'reviews/new'
+  end
 end
 
 post '/songs' do
@@ -43,6 +65,7 @@ end
 
 get '/songs/:id' do
   @song = Song.find params[:id]
+  @reviews = Review.where(song_id: params[:id]).all 
   erb :'songs/show'
 end
 

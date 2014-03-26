@@ -3,9 +3,13 @@
     <%= youtube_embed  song.url  %>
 
     <h3> 
+    <% if current_user %>
       <a href="/songs/<%= song.id %>">
         <%= song.name %>
       </a> 
+      <% else %>
+      <%= song.name %>
+    <% end %>
       <small>
         (by: <%= song.artist %>)
       </small> 
@@ -15,23 +19,15 @@
 
     <!-- <p> <a href="<%= song.url %>"><span style="color:red"><%= song.url %></span></a> </p> -->
 
-    <% unless current_user.upvotes.where(song_id: song.id).exists? %>
-      <form action="/songs/like/<%= song.id %>" method="POST">
+    <% if current_user %>
+    <% vote = !song.upvoted_by?(current_user) ? "like" : "unlike" %>
+    <form action="/songs/<%= vote %>/<%= song.id %>" method="POST">
         <div>
-          <input type="submit" name="song_id" value="Like:)">
+          <input type="submit" name="song_id" value="<%= vote.titlecase %>">
         </div>
         <% true %>
       </form>
-    <% else %>
-      <form action="/songs/unlike/<%= song.id %>" method="POST">
-        <div>
-          <input type="submit" name="song_id" value="Unlike:(">
-        </div>
-        <% false %>
-      </form>
     <% end %>
-
-
     <p><strong>Likes: <%= song.vote_count  %></strong></p>
   
 

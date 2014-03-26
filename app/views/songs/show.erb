@@ -4,8 +4,29 @@
 
 <p><strong>Genre:</strong> <span style="color:blue"><%= @song.genre %></span> </p>
 
-<p><strong>URL:</strong>  <a href="<%= @song.url %>"><span style="color:red"><%= @song.url %></span></a></span></p>
+<p> <strong>URL:</strong>  <a href="<%= @song.url %>"><span style="color:red"><%= @song.url %></span></a></span>
+</p>
+
+
+<% if current_user && !@song.reviewed_by?(current_user) %>
+  <form action='/reviews' method="POST">
+    <div>
+      <input type="text" placeholder="Add a comment" name="review">
+      <input type="hidden" name="song_id" value="<%= @song.id %>">
+      <input type="submit" name="Submit">
+    </div>
+  </form>
+<% end %>
+ 
+
+<% @reviews.each do |r| %>
+  <p><%= r.review %> by:<%= (r.user.email if r.user) %> </p>
+<% end %>
+
 
 <hr>
 <p><strong><a href="/songs">Return to the public Wall of Sound</a></strong></p>
 <p><a href="/songs/new">Post a song - All the Kool Peeps are doing it!</a></p>
+
+
+   
